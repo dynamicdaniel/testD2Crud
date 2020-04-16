@@ -1,7 +1,8 @@
 const userDB = [
-  { username: 'admin', password: 'admin', uuid: 'admin-uuid', name: 'Admin' },
-  { username: 'editor', password: 'editor', uuid: 'editor-uuid', name: 'Editor' },
-  { username: 'user1', password: 'user1', uuid: 'user1-uuid', name: 'User1' }
+  { username: 'admin', password: 'admin', uuid: 'admin-uuid', name: 'Admin', role: 1 }, // 'admin'
+  { username: 'editor', password: 'editor', uuid: 'editor-uuid', name: 'Editor', role: 2 },// 'hr'
+  { username: 'user1', password: 'user1', uuid: 'user1-uuid', name: 'User1', role: 3 },// 'manager'
+  { username: 'user1', password: 'user1', uuid: 'user1-uuid', name: 'User1', role: 4 }// 'normal'
 ]
 
 export default [
@@ -9,7 +10,8 @@ export default [
     path: '/api/login',
     method: 'post',
     handle ({ body }) {
-      const user = userDB.find(e => e.username === body.username && e.password === body.password)
+      console.log(body)
+      const user = userDB.find(e => e.username === body.username && e.password === body.password && e.role === body.role)
       if (user) {
         return {
           code: 0,

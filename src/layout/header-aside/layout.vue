@@ -9,7 +9,7 @@
     <div class="d2-layout-header-aside-content" flex="dir:top">
       <!-- 顶栏 -->
       <div
-        class="d2-theme-header"
+        class="d2-theme-header header-custom"
         :style="{
           opacity: this.searchActive ? 0.5 : 1
         }"
@@ -19,20 +19,20 @@
           <img v-if="asideCollapse" :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/icon-only.png`">
           <img v-else :src="`${$baseUrl}image/theme/${themeActiveSetting.name}/logo/all.png`">
         </router-link>
-        <div class="toggle-aside-btn" @click="handleToggleAside" flex-box="0">
+        <div class="toggle-aside-btn header-custom" @click="handleToggleAside" flex-box="0">
           <d2-icon name="bars"/>
         </div>
-        <d2-menu-header flex-box="1"/>
+        <d2-menu-header flex-box="1" class='header-custom' style="color:#fff" />
         <!-- 顶栏右侧 -->
-        <div class="d2-header-right" flex-box="0">
+        <div class="d2-header-right header-right-custom" flex-box="0">
           <!-- 如果你只想在开发环境显示这个按钮请添加 v-if="$env === 'development'" -->
-          <d2-header-search @click="handleSearchClick"/>
+          <!-- <d2-header-search @click="handleSearchClick"/>
           <d2-header-log/>
-          <d2-header-fullscreen/>
-          <d2-header-theme/>
-          <d2-header-size/>
-          <d2-header-locales/>
-          <d2-header-color/>
+          <d2-header-fullscreen/> -->
+          <!-- <d2-header-theme/> -->
+          <!-- <d2-header-size/> -->
+          <!-- <d2-header-locales/> -->
+          <!-- <d2-header-color/> -->
           <d2-header-user/>
         </div>
       </div>
@@ -122,6 +122,9 @@ export default {
       asideWidthCollapse: '65px'
     }
   },
+  created() {
+    console.log('layout组件实例化', this)
+  },
   computed: {
     ...mapState('d2admin', {
       keepAlive: state => state.page.keepAlive,
@@ -160,4 +163,11 @@ export default {
 <style lang="scss">
 // 注册主题
 @import '~@/assets/style/theme/register.scss';
+.d2-theme-header.header-custom {
+  background: dodgerblue;
+  color: #fff !important;
+}
+.header-right-custom {
+  margin-right: 50px;
+}
 </style>

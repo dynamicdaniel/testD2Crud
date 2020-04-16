@@ -3,6 +3,9 @@ import util from '@/libs/util.js'
 import router from '@/router'
 import { AccountLogin } from '@api/sys.login'
 
+import { admin, hr, manager, employee } from '@/menu'
+import { frameInRoutes } from '@/router/routes'
+
 export default {
   namespaced: true,
   actions: {
@@ -15,13 +18,15 @@ export default {
      */
     login ({ dispatch }, {
       username = '',
-      password = ''
+      password = '',
+      role = 0
     } = {}) {
       return new Promise((resolve, reject) => {
         // 开始请求登录接口
         AccountLogin({
           username,
-          password
+          password,
+          role
         })
           .then(async res => {
             // 设置 cookie 一定要存 uuid 和 token 两个 cookie
@@ -31,6 +36,31 @@ export default {
             // 如有必要 token 需要定时更新，默认保存一天
             util.cookies.set('uuid', res.uuid)
             util.cookies.set('token', res.token)
+            util.cookies.set('role', res.role)
+            util.cookies.set('username', res.name)
+            console.log(res)
+            // 处理路由 得到每一级的路由设置
+            console.log(this)
+            let suitableMenu = []
+            let { role } = res
+            switch(role) {
+              case 1: //'admin'
+                suitableMenu = admin
+                break;
+              case 2://'admin'
+                suitableMenu = hr
+                break;
+              case 3://'admin'
+                suitableMenu = manager
+                break;
+              case 4://'admin'
+                suitableMenu = employee
+            }
+            this.commit('d2admin/page/init', frameInRoutes)
+            // 设置顶栏菜单
+            this.commit('d2admin/menu/headerSet', suitableMenu)
+            // 设置侧边栏菜单
+            this.commit('d2admin/menu/asideSet', suitableMenu)
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
               name: res.name
@@ -59,6 +89,8 @@ export default {
         // 删除cookie
         util.cookies.remove('token')
         util.cookies.remove('uuid')
+        util.cookies.remove('role')
+        util.cookies.remove('username')
         // 清空 vuex 用户信息
         await dispatch('d2admin/user/set', {}, { root: true })
         // 跳转路由

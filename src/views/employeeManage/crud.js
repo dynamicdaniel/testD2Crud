@@ -237,5 +237,16 @@ export const crudOptions = {
       dict: {  //本地数据字典
       }
     }
-  ]
+  ],
+  rowHandle: {
+    width: 400,
+    custom: [
+      {
+        text: '员工详情',
+        type: 'primary',
+        size: 'small',
+        emit: 'custom-emit'
+      }
+    ]
+  }
 }

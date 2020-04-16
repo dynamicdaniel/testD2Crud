@@ -44,10 +44,37 @@ const frameIn = [
         path: 'HRManage',
         name: 'HRManage',
         meta: {
-          title: '部门管理',
+          title: 'HR管理',
           auth: true
         },
         component: _import('HRManage')
+      },
+      {
+        path: 'travelLeave',
+        name: 'travelLeave',
+        meta: {
+          title: '请假出差',
+          auth: true
+        },
+        component: _import('travelLeave')
+      },
+      {
+        path: 'project',
+        name: 'project',
+        meta: {
+          title: '请假出差',
+          auth: true
+        },
+        component: _import('project')
+      },
+      {
+        path: 'recruitment',
+        name: 'recruitment',
+        meta: {
+          title: '招聘信息',
+          auth: true
+        },
+        component: _import('recruitment')
       },
       // {
       //   path: 'page3',

@@ -42,6 +42,7 @@ router.beforeEach(async (to, from, next) => {
   // 关闭搜索面板
   store.commit('d2admin/search/set', false)
   // 验证当前路由所有的匹配中是否需要有登录验证的
+  console.log(sessionStorage)
   if (to.matched.some(r => r.meta.auth)) {
     // 这里暂时将cookie里是否存有token作为验证是否登录的条件
     // 请根据自身业务需要修改

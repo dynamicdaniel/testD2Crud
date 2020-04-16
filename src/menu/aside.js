@@ -14,11 +14,63 @@ export default [
   {
     title: '部门管理',
     icon: 'briefcase',
-    path: 'departmentManage'
+    path: '/departmentManage'
   },
   {
     title: 'HR管理',
     icon: 'id-card',
-    path: 'HRManage'
+    path: '/HRManage'
+  },
+  {
+    title: '请假出差',
+    icon: 'id-card',
+    path: '/travelLeave'
+  },
+  {
+    title: '项目查询',
+    icon: 'id-card',
+    path: '/project'
+  },
+  {
+    title: '招聘信息',
+    icon: 'id-card',
+    path: '/recruitment'
+  },
+  {
+    title: '会议室管理',
+    icon: 'id-card',
+    children: [
+      {
+        title: '会议室信息',
+        icon: 'id-card',
+        path: '/meetingRoomInfo'
+      },
+      {
+        title: '我的会议',
+        icon: 'id-card',
+        path: '/personalMeet'
+      },
+      {
+        title: '查看会议室',
+        icon: 'id-card',
+        path: '/checkMeetRoom'
+      },
+    ]
+  },
+  {
+    title: '会议管理',
+    icon: 'id-card',
+    children: [
+      {
+        title: '我的会议',
+        icon: 'id-card',
+        path: '/personalMeet'
+      },
+      {
+        title: '查看会议室',
+        icon: 'id-card',
+        path: '/checkMeetRoom'
+      },
+    ]
   }
 ]
