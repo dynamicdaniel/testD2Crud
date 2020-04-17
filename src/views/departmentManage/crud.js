@@ -34,7 +34,7 @@ export const crudOptions = {
       type: 'input', //字段类型为选择框
       form: { //配置添加和编辑，根据form的配置自动生成addTemplate和editTemplate
         rules: [//【可选】添加和修改时的校验规则，不配置则不校验
-          { required: true, message: '请填写经理姓名' }
+          { required: false, message: '请填写经理姓名' }
         ]
       },
       dict: { //数据字典配置
@@ -48,7 +48,9 @@ export const crudOptions = {
     {
       title: '创建时间',
       key: 'dateFromTo',
-      search: {},//启用查询
+      search: {
+        width: '350px'
+      },//启用查询
       type: 'datetimerange', //字段类型为选择框
       form: { //配置添加和编辑，根据form的配置自动生成addTemplate和editTemplate
         disabled:true, //是否禁用该字段的添加与修改
@@ -65,4 +67,9 @@ export const crudOptions = {
       }
     }
   ],
+  page: {
+    current: 1,
+    size: 10,
+    total: 1
+  },
 }

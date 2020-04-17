@@ -56,7 +56,7 @@ import { crudOptions } from './crud' //上文的crudOptions配置
 import { d2CrudPlus } from 'd2-crud-plus'
 import { AddObj, GetList, UpdateObj, DelObj } from './api' //查询添加修改删除的http请求接口
 export default {
-  name: 'page1',
+  name: 'employeeManage',
   data () {
     return {
       drawer: false,
@@ -68,22 +68,15 @@ export default {
   methods: {
     getCrudOptions () { return crudOptions },
     pageRequest (query) {
-    console.log('request', query)
+      console.log('request', query)
       return Promise.resolve({
-        data: {
-          records: [
-            {
-              name: '董事会',
-              manager: '王钰淳'
-            },
-            {
-              name: '开发部',
-              manager: '小陈'
-            }
-          ],
+        data:{
+          records: [{
+            name: 'test',
+            sex: '男'
+          }],
           current: 1,
-          total: 10,
-          size: 10
+          total: 1
         }
       })
       return GetList(query)

@@ -3,8 +3,7 @@ export const crudOptions = {
     {
       title: '姓名',
       key: 'name',
-      align: 'center',
-      // sortable: true,
+      sortable: true, 
       type: 'input', //字段类型为时间选择器datepicker,根据类型可自动生成默认配置
       search: {//查询配置，默认启用查询
         disabled: false //【可选】true禁止查询,默认为false
@@ -19,8 +18,6 @@ export const crudOptions = {
     {
       title: '性别',
       key: 'sex',
-      align: 'center',
-      width: 50,
       search: {},//启用查询
       type: 'select', //字段类型为选择框
       form: { //配置添加和编辑，根据form的配置自动生成addTemplate和editTemplate
@@ -34,12 +31,11 @@ export const crudOptions = {
           { value: '1', label: '男' },
           { value: '2', label: '女' },
         ]
-      },
+      }
     },
     {
       title: '部门', 
       key: 'deptId', 
-      align: 'center',
       search: {},//启用查询
       type: 'select', //字段类型为选择框
       form: {
@@ -64,7 +60,6 @@ export const crudOptions = {
     {
       title: '岗位', 
       key: 'jobId', 
-      align: 'center',
       search: {},//启用查询
       type: 'select', //字段类型为选择框
       form: {
@@ -89,7 +84,6 @@ export const crudOptions = {
     {
       title: '任职资格', 
       key: 'qualification', 
-      align: 'center',
       search: {},//启用查询
       type: 'select', //字段类型为选择框
       form: {
@@ -114,7 +108,6 @@ export const crudOptions = {
     {
       title: '联系方式', 
       key: 'tel', 
-      align: 'center',
       search: {
         disabled: true
       },//启用查询
@@ -140,9 +133,7 @@ export const crudOptions = {
     },
     {
       title: '邮箱地址', 
-      key: 'email',
-      width: 200,
-      align: 'center',
+      key: 'email', 
       search: {
         disabled: true
       },//启用查询
@@ -163,7 +154,6 @@ export const crudOptions = {
     {
       title: '紧急联系人', 
       key: 'urgentMan', 
-      align: 'center',
       search: {
         disabled: true
       },//启用查询
@@ -190,7 +180,6 @@ export const crudOptions = {
     {
       title: '紧急联系人电话', 
       key: 'urgentManTel', 
-      align: 'center',
       search: {
         disabled: true
       },//启用查询
@@ -211,7 +200,6 @@ export const crudOptions = {
     {
       title: '系统账号', 
       key: 'account', 
-      align: 'center',
       search: {
         disabled: true
       },//启用查询
@@ -231,7 +219,6 @@ export const crudOptions = {
     },
     {
       title: '密码', 
-      align: 'center',
       key: 'password', 
       search: {
         disabled: true
@@ -251,13 +238,8 @@ export const crudOptions = {
       }
     }
   ],
-  page: {
-    current: 1,
-    size: 10,
-    total: 1
-  },
   rowHandle: {
-    width: 300,
+    width: 400,
     custom: [
       {
         text: '员工详情',

@@ -6,6 +6,7 @@ const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 /**
  * 在主框架内显示
  */
+// 1 管理员 2 人事 3 部门经理 4 员工
 const frameIn = [
   {
     path: '/',
@@ -17,7 +18,7 @@ const frameIn = [
         path: 'index',
         name: 'index',
         meta: {
-          auth: true
+          auth: [1,2,3,4]
         },
         component: _import('system/index')
       },
@@ -27,7 +28,7 @@ const frameIn = [
         name: 'employeeManage',
         meta: {
           title: '员工管理',
-          auth: true
+          auth: [1,2]
         },
         component: _import('employeeManage')
       },
@@ -36,7 +37,7 @@ const frameIn = [
         name: 'departmentManage',
         meta: {
           title: '部门管理',
-          auth: true
+          auth: [1,3]
         },
         component: _import('departmentManage')
       },
@@ -45,7 +46,7 @@ const frameIn = [
         name: 'HRManage',
         meta: {
           title: 'HR管理',
-          auth: true
+          auth: [1]
         },
         component: _import('HRManage')
       },
@@ -53,17 +54,26 @@ const frameIn = [
         path: 'travelLeave',
         name: 'travelLeave',
         meta: {
-          title: '请假出差',
-          auth: true
+          title: '考勤管理',
+          auth: [2,3]
         },
         component: _import('travelLeave')
+      },
+      {
+        path: 'checkingProject',
+        name: 'checkingProject',
+        meta: {
+          title: '查看项目',
+          auth: [2,4]
+        },
+        component: _import('project') 
       },
       {
         path: 'project',
         name: 'project',
         meta: {
-          title: '请假出差',
-          auth: true
+          title: '项目管理',
+          auth: [3]
         },
         component: _import('project')
       },
@@ -72,10 +82,20 @@ const frameIn = [
         name: 'recruitment',
         meta: {
           title: '招聘信息',
-          auth: true
+          auth: [2]
         },
         component: _import('recruitment')
       },
+      {
+        path: 'personalOnOff',
+        name: 'personalOnOff',
+        meta: {
+          title: '请假出差',
+          auth: [4]
+        },
+        component: _import('personalOnOff')
+      },
+      
       // {
       //   path: 'page3',
       //   name: 'page3',
@@ -133,6 +153,11 @@ const errorPage = [
     path: '*',
     name: '404',
     component: _import('system/error/404')
+  },
+  {
+    path: '/401',
+    name: '401',
+    component: _import('system/error/401')
   }
 ]
 

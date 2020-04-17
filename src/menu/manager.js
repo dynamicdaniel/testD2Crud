@@ -1,9 +1,9 @@
 export default [
   { path: '/index', title: '首页', icon: 'home' },
   {
-    title: '员工考勤',
+    title: '考勤管理',
     icon: 'id-card',
-    path: '/employeeOnOff'
+    path: '/travelLeave'
   },
   {
     title: '项目管理',

@@ -17,21 +17,22 @@ import { admin, hr, manager, employee } from '@/menu'
 import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
+console.log('main.js d2Crud', d2Crud)
 Vue.use(d2Admin)
 Vue.use(d2Crud, { size: 'medium' })
 Vue.use(d2CrudPlus, {
- getRemoteDictFunc (url) { //获取数据字典的请求方法，不配置此项则无法加载远程数据字典
+  getRemoteDictFunc (url) { //获取数据字典的请求方法，不配置此项则无法加载远程数据字典
    return request({
      url: url,
      method: 'get'
    }).then(ret=>{
      return ret.data  //返回字典数组
    })  
- },
- commonOption(){ //d2-crud option 全局设置
-   return {
-     options: {size:'mini'} //全局配置表格大小
-   }
+  },
+  commonOption(){ //d2-crud option 全局设置
+    return {
+    options: {size:'mini'} //全局配置表格大小
+  }
  }
 })
 

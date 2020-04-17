@@ -6,7 +6,7 @@ export default [
     path: '/employeeManage'
   },
   {
-    title: '请假出差',
+    title: '考勤查询',
     icon: 'id-card',
     path: '/travelLeave'
   },

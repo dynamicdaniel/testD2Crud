@@ -1,14 +1,14 @@
-[
+export default [
   { path: '/index', title: '首页', icon: 'home' },
   {
-    title: '考勤管理',
+    title: '请假出差',
     icon: 'users',
     path: '/personalOnOff'
   },
   {
-    title: '项目管理',
+    title: '参与项目',
     icon: 'briefcase',
-    path: '/projectInvove'
+    path: '/checkingProject'
   },
   {
     title: '会议管理',

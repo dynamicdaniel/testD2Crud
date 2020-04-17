@@ -38,6 +38,7 @@ export default {
             util.cookies.set('token', res.token)
             util.cookies.set('role', res.role)
             util.cookies.set('username', res.name)
+            util.cookies.set('sex', res.sex)
             console.log(res)
             // 处理路由 得到每一级的路由设置
             console.log(this)
@@ -63,7 +64,7 @@ export default {
             this.commit('d2admin/menu/asideSet', suitableMenu)
             // 设置 vuex 用户信息
             await dispatch('d2admin/user/set', {
-              name: res.name
+              name: res.name, ...res
             }, { root: true })
             // 用户登录后从持久化数据加载一系列的设置
             await dispatch('load')
