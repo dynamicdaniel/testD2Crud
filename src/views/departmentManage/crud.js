@@ -64,5 +64,5 @@ export const crudOptions = {
         // url: '/api/dicts/StatusEnum' //远程获取数据字典
       }
     }
-  ]
+  ],
 }
