@@ -8,22 +8,11 @@ export default [
   {
     title: '项目管理',
     icon: 'id-card',
-    path: '/project'
+    path: '/projectManage'
   },
   {
-    title: '会议管理',
+    title: '我的会议',
     icon: 'id-card',
-    children: [
-      {
-        title: '我的会议',
-        icon: 'id-card',
-        path: '/personalMeet'
-      },
-      {
-        title: '查看会议室',
-        icon: 'id-card',
-        path: '/checkMeetRoom'
-      },
-    ]
+    path: '/myMeetingInfo'
   }
 ]

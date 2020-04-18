@@ -66,16 +66,16 @@ const frameIn = [
           title: '查看项目',
           auth: [2,4]
         },
-        component: _import('project') 
+        component: _import('checkingProject') 
       },
       {
-        path: 'project',
-        name: 'project',
+        path: 'projectManage',
+        name: 'projectManage',
         meta: {
           title: '项目管理',
           auth: [3]
         },
-        component: _import('project')
+        component: _import('projectManage')
       },
       {
         path: 'recruitment',
@@ -95,7 +95,33 @@ const frameIn = [
         },
         component: _import('personalOnOff')
       },
-      
+      {
+        path: 'meetingRoomInfo',
+        name: 'meetingRoomInfo',
+        meta: {
+          title: '会议室信息',
+          auth: [2]
+        },
+        component: _import('meetingRoomInfo')
+      },
+      {
+        path: 'meetingInfo',
+        name: 'meetingInfo',
+        meta: {
+          title: '会议信息',
+          auth: [2]
+        },
+        component: _import('meetingInfo')
+      },
+      {
+        path: 'myMeetingInfo',
+        name: 'myMeetingInfo',
+        meta: {
+          title: '我的会议',
+          auth: [2,3,4]
+        },
+        component: _import('myMeetingInfo')
+      },
       // {
       //   path: 'page3',
       //   name: 'page3',

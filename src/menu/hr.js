@@ -13,7 +13,7 @@ export default [
   {
     title: '项目查询',
     icon: 'id-card',
-    path: '/project'
+    path: '/checkingProject'
   },
   {
     title: '招聘信息',
@@ -30,20 +30,15 @@ export default [
         path: '/meetingRoomInfo'
       },
       {
+        title: '会议信息',
+        icon: 'id-card',
+        path: '/meetingInfo'
+      },
+      {
         title: '我的会议',
         icon: 'id-card',
-        path: '/personalMeet'
-      },
-      {
-        title: '查看会议室',
-        icon: 'id-card',
-        path: '/checkMeetRoom'
-      },
-      {
-        title: '预定会议室',
-        icon: 'id-card',
-        path: '/bookMeetRoom'
-      },
+        path: '/myMeetingInfo'
+      }
     ]
   }
 ]

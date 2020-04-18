@@ -39,9 +39,7 @@ export default {
             util.cookies.set('role', res.role)
             util.cookies.set('username', res.name)
             util.cookies.set('sex', res.sex)
-            console.log(res)
             // 处理路由 得到每一级的路由设置
-            console.log(this)
             let suitableMenu = []
             let { role } = res
             switch(role) {

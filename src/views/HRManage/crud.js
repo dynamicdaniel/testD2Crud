@@ -10,10 +10,11 @@ export const crudOptions = {
         disabled: false //【可选】true禁止查询,默认为false
       },
       form: {//form表单的配置
-        disabled: false, //禁止添加输入与修改输入【可选】默认false
-        rules: [//【可选】添加和修改时的校验规则，不配置则不校验
-          { required: true, message: '请填写姓名' }
-        ]
+        //禁止添加输入与修改输入【可选】默认false
+        // rules: [//【可选】添加和修改时的校验规则，不配置则不校验
+        //   { required: true, message: '请填写姓名' }
+        // ]
+        disabled: true
       }
     },
     {

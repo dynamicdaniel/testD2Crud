@@ -29,7 +29,7 @@ export default [
   {
     title: '项目查询',
     icon: 'id-card',
-    path: '/project'
+    path: '/projectManage'
   },
   {
     title: '招聘信息',

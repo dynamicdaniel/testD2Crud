@@ -22,7 +22,7 @@
         @form-data-change="handleFormDataChange"
         @custom-emit="customEmit"
       >
-      <el-button slot="header" style="margin-bottom: 5px" size="small" type="primary" @click="addRow">新增</el-button>
+      <el-button slot="header" icon='el-icon-plus' style="margin-bottom: 5px" size="small" type="primary" @click="addRow">新增</el-button>
     </d2-crud>
     <crud-footer ref="footer" slot="footer"
       :current="crud.page.current"

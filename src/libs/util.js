@@ -17,6 +17,10 @@ util.title = function (titleText) {
   window.document.title = `${processTitle}${titleText ? ` | ${titleText}` : ''}`
 }
 
+util.getRole = function() {
+  return JSON.parse(util.cookies.get('role'))
+}
+
 /**
  * @description 打开新页面
  * @param {String} url 地址
