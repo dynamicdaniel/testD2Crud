@@ -71,20 +71,23 @@ export default {
     updateRequest (row) {return UpdateObj(row)},// 修改请求
     handleAgree (record) {
       let { row = {} } = record || {}
-      console.log(row, this.crud, this.doRefresh)
+      let { id } = row
       let params = { id, isAgree: 1 }
-      this.UpdateObj(params)
+      UpdateObj(params)
         .then(res => {
           console.log(res)
-          this.crud.rowHandle.custom
         })
       this.doRefresh()
     },
     handleDeny (record) {
-      this.drawer = true
       let { row = {} } = record || {}
       let { id } = row
-      this.detailInfo = row
+      let params = { id, isAgree: 2 }
+      UpdateObj(params)
+        .then(res => {
+          console.log(res)
+        })
+      this.doRefresh()
     },
     delRequest (row) {return DelObj(row.id)},// 删除请求
     // 还可以覆盖d2CrudPlus.crud中的方法来实现你的定制化需求

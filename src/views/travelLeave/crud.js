@@ -5,6 +5,7 @@ export const crudOptions = {
     {
       title: '员工姓名',
       key: 'userId', // userId
+      align: 'center',
       width: 100,
       type: 'select', //字段类型为时间选择器datepicker,根据类型可自动生成默认配置
       search: {//查询配置，默认启用查询
@@ -34,13 +35,13 @@ export const crudOptions = {
       dict: { //数据字典配置
         url: '/human/user/list', //远程获取数据字典
         value: 'id',
-        label: 'name'
-      }  
+        label: 'userName'
+      }
     },
     {
       title: '请假/出差原因',
       align: 'center',
-      width: 200,
+      width: 250,
       key: 'reason',
       search: {
         disabled: false
@@ -111,6 +112,7 @@ export const crudOptions = {
     {
       title: '出差地点', 
       key: 'location', 
+      width: 200,
       search: {
         disabled: true
       },//启用查询
@@ -179,13 +181,23 @@ export const crudOptions = {
         text: '同意',
         type: 'primary',
         size: 'small',
-        emit: 'custom-agree'
+        emit: 'custom-agree',
+        disabled (index, row) {
+          console.log('同意操作', index, row)
+          let { isAgree } = row
+          return isAgree !== 0 ? true : false
+        }
       },
       {
         text: '驳回',
         type: 'danger',
         size: 'small',
-        emit: 'custom-deny'
+        emit: 'custom-deny',
+        disabled (index, row) {
+          console.log('驳回操作', index, row)
+          let { isAgree } = row
+          return isAgree !== 0 ? true : false
+        }
       }
     ]
   }
