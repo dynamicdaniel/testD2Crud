@@ -1,29 +1,29 @@
 import request from '@/plugin/axios'
 export function GetList (query) {
   return request({
-    url: '/test/page',
+    url: '/human/meet/list',
     method: 'get',
     params: query
   })
 }
 export function AddObj (obj) {
   return request({
-    url: '/test/add',
+    url: '/human/meet/create',
     method: 'post',
     data: obj
   })
 }
 export function UpdateObj (obj) {
   return request({
-    url: '/test/update',
-    method: 'post',
+    url: '/human/meet/update',
+    method: 'put',
     data: obj
   })
 }
 export function DelObj (id) {
   return request({
-    url: '/test/delete',
-    method: 'post',
+    url: '/human/meet/delete',
+    method: 'delete',
     params: { id }
   })
 }

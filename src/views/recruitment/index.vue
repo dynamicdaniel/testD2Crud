@@ -31,23 +31,6 @@
       @change="handlePaginationChange"
     >
     </crud-footer>
-    <el-drawer
-      title="员工详情"
-      :visible.sync="drawer"
-      direction="rtl"
-    >
-      <div class='user_detail_info_wrapper'>
-        <p
-          v-for="key in Object.keys(detailInfo)"
-          :key="key"
-          class='user_detail_info'
-        >
-          <span>{{ getTitle(key) }}</span>
-          <span>{{ detailInfo[key] }}</span>
-        </p>
-      </div>
-      <span></span>
-    </el-drawer>
   </d2-container>
 </template>
 
@@ -67,44 +50,26 @@ export default {
   methods: {
     getCrudOptions () { return crudOptions },
     pageRequest (query) {
-      console.log('request', query)
-      console.log('pageRequest', this.crud.page)
-      let { size } = query
-      return Promise.resolve({
-        data:{
-          records: [{
-            name: 'test',
-            sex: '男',
-            // stage: 1
-          }],
-          current: 1,
-          size,
-          // size: 10,
-          total: 20
-        }
-      })
-      return GetList(query)
+      let { current, size, ...filter } = query
+      let params = { page: current, size, ...filter }
+      return GetList(params)
+        .then(res => {
+          let { list, total, page, size } = res || {}
+          let formatData = {
+            data: {
+              records: list,
+              current: page,
+              size,
+              total
+            }
+          }
+          return formatData
+        })
     },// 数据请求
     addRequest (row) { return AddObj(row) }, // 添加请求
     updateRequest (row) {return UpdateObj(row)},// 修改请求
     delRequest (row) {return DelObj(row.id)},// 删除请求
     // 还可以覆盖d2CrudPlus.crud中的方法来实现你的定制化需求
-    customEmit (record) {
-      this.drawer = true
-      let { row = {} } = record || {}
-      this.detailInfo = row
-    },
-    exportExcel () {
-      let { form } = this.getSearch()
-      console.log('exportExcel', this.crud, )
-
-    },
-    handleFilterChange (filter) {
-      console.log('handleFilterChange', filter)
-    },
-    paginationChange (current) {
-      console.log('paginationChange', current)
-    },
     getTitle (key) {
       let { columnsMap } = this.crud
       let value = columnsMap[key]

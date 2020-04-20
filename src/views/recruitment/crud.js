@@ -6,20 +6,19 @@ export const crudOptions = {
       title: '待诏岗位',
       key: 'jobId',
       align: 'center',
-      // sortable: true,
-      // type: 'input', //字段类型为时间选择器datepicker,根据类型可自动生成默认配置
+      type: 'select', //字段类型为时间选择器datepicker,根据类型可自动生成默认配置
       search: {//查询配置，默认启用查询
-        disabled: false, //【可选】true禁止查询,默认为false
-        component: {
-          name: 'el-select', //表单组件名称
-          props: { //表单组件的参数，其他组件的参数请查看相应的组件文档
-            // separator:",",
-            elProps:{ //el-select的参数，dict-select内部封装了el-select
-              filterable: true, //可过滤选择项[不同组件参数不同]
-              clearable: true, //可清除[不同组件参数不同]
-            } 
-          },
-        }
+        // disabled: false, //【可选】true禁止查询,默认为false
+        // component: {
+        //   // name: 'el-select', //表单组件名称
+        //   props: { //表单组件的参数，其他组件的参数请查看相应的组件文档
+        //     // separator:",",
+        //     elProps:{ //el-select的参数，dict-select内部封装了el-select
+        //       filterable: true, //可过滤选择项[不同组件参数不同]
+        //       clearable: true, //可清除[不同组件参数不同]
+        //     } 
+        //   },
+        // }
       },
       form: {//form表单的配置
         // disabled: false, //禁止添加输入与修改输入【可选】默认false
@@ -29,13 +28,18 @@ export const crudOptions = {
           { required: true, message: '请填写姓名' }
         ],
         component: {
-          name: 'el-input', //表单组件名称
+          // name: 'el-input', //表单组件名称
           props: { //表单组件的参数，其他组件的参数请查看相应的组件文档
-            separator:",",
-            filterable: true, //可过滤选择项[不同组件参数不同]
+            // separator:",",
+            // filterable: true, //可过滤选择项[不同组件参数不同]
             clearable: true, //可清除[不同组件参数不同]
           },
         }
+      },
+      dict: {
+        url: '/human/job/list',
+        value: 'id',
+        label: 'jobName'
       }
     },
     {
@@ -77,7 +81,7 @@ export const crudOptions = {
         component: { //添加和修改时form表单的组件
           props: { //配置自定义组件的属性
             filterable: true, //可过滤选择项
-            multiple: true, //支持多选
+            // multiple: true, //支持多选
             clearable: true //可清除
           }
         },
@@ -116,16 +120,5 @@ export const crudOptions = {
     current: 1,
     size: 10,
     total: 1
-  },
-  rowHandle: {
-    width: 300,
-    custom: [
-      {
-        text: '员工详情',
-        type: 'primary',
-        size: 'small',
-        emit: 'custom-emit'
-      }
-    ]
   }
 }

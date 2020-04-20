@@ -9,13 +9,14 @@
       <img src='./header.jpg' width='50' height="50"/>
       <p>
         <span>{{info.name || 'test'}}</span>
-        <span>{{info.department || '行业开发技术支持部'}}</span>
-        <span>{{info.email || 'youawesome@niux.com'}}</span>
+        <span>{{info.deptName || ''}}</span>
+        <span>{{info.email || ''}}</span>
       </P>
     </div>
     <el-divider class='user-info-divider'></el-divider>
     <div style="display:flex;align-items:center; margin: 0">
-      <el-button class="el-icon-unlock user-info-btn" flex-box="1" type="text" @click="editPwd">
+      <el-button class="el-icon-unlock user-info-btn" flex-box="1" type="text">
+        <!--  @click="editPwd" -->
         <span class='user-info-btn-text' @click="dialogFormVisible = true">修改密码</span>
       </el-button>
       <el-divider direction='vertical'></el-divider>
@@ -48,27 +49,10 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import require from '@/plugin/axios'
+import util from '@/libs/util'
 export default {
   data () {
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'));
-      } else {
-        if (this.pwdform.oldPassword !== '') {
-          this.$refs.pwdform.validateField('newPassword');
-        }
-        callback();
-      }
-    };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请再次输入密码'));
-      } else if (value !== this.pwdform.oldPassword) {
-        callback(new Error('两次输入密码不一致!'));
-      } else {
-        callback();
-      }
-    };
     return {
       dialogFormVisible: false,
       pwdform: {
@@ -78,10 +62,10 @@ export default {
       formLabelWidth: '120px',
       rules: {
         oldPassword: [
-          { validator: validatePass, trigger: 'blur' }
+          { required: true, trigger: 'blur', message: '必填' }
         ],
         newPassword: [
-          { validator: validatePass2, trigger: 'blur' }
+          { required: true, trigger: 'blur', message: '必填' }
         ],
       }
     }
@@ -103,14 +87,31 @@ export default {
         confirm: true
       })
     },
-    editPwd () {
-      console.log('修改密码')
-    },
+    // editPwd () {
+    //   console.log('修改密码')
+      
+    // },
     comfirmUpdate (form) {
       console.log(form)
       this.$refs[form].validate((valid) => {
         if (valid) {
-          alert('submit!');
+          let { newPassword, oldPassword } = this.pwdform
+          let id = Number(util.cookies.get('id'))
+          require({
+            url: '/human/user/rePassword',
+            method: 'put',
+            params: {
+              newPass: newPassword,
+              oldPass: oldPassword,
+              id
+            }
+          }).then(res => {
+            console.log('editPwd', res)
+            this.$message('修改成功！')
+            this.dialogFormVisible = false
+          }).catch(err => {
+            console.log('editPwd err',)
+          })
         } else {
           console.log('error submit!!');
           return false;

@@ -16,6 +16,11 @@ export default [
     path: '/checkingProject'
   },
   {
+    title: '岗位管理',
+    icon: 'id-card',
+    path: '/jobManage'
+  },
+  {
     title: '招聘信息',
     icon: 'id-card',
     path: '/recruitment'

@@ -4,16 +4,15 @@
     <d2-crud ref="d2Crud"
       :columns="crud.columns"
       :data="crud.list"
-      :add-template="crud.addTemplate"
-      :add-rules="crud.addRules"
+      :rowHandle="hasOperate ? crud.rowHandle : null"
       :form-options="crud.formOptions"
       :options="crud.options"
-      @dialog-open="handleDialogOpen"
-      @row-add="handleRowAdd"
-      @dialog-cancel="handleDialogCancel"
+      :loading="crud.loading"
       @form-data-change="handleFormDataChange"
+      @custom-agree='handleAgree'
+      @custom-deny='handleDeny'
     >
-      <el-button slot="header" icon='el-icon-plus' style="margin-bottom: 5px" size="small" type="primary" @click="addRow">新增</el-button>
+      <!-- <el-button slot="header" icon='el-icon-plus' style="margin-bottom: 5px" size="small" type="primary" @click="addRow">新增申请</el-button> -->
     </d2-crud>
     <crud-footer ref="footer" slot="footer"
       :current="crud.page.current"
@@ -31,35 +30,62 @@ import { crudOptions } from './crud' //上文的crudOptions配置
 import { d2CrudPlus } from 'd2-crud-plus'
 import { AddObj, GetList, UpdateObj, DelObj } from './api' //查询添加修改删除的http请求接口
 export default {
-  name: 'page1',
+  name: 'travelLeave',
   mixins: [d2CrudPlus.crud], // 最核心部分，继承d2CrudPlus.crud
   computed: {
     hasFilter () {
       let authRole = [2]
       let curRole = util.getRole()
       return authRole.indexOf(curRole) !== -1
+    },
+    hasOperate () {
+      let curRole = util.getRole()
+      return curRole === 3
     }
   },
   methods: {
     getCrudOptions () { return crudOptions },
     pageRequest (query) {
-      return Promise.resolve({
-        data:{
-          records: [{
-            name: 'test',
-            sex: '男'
-          }],
-          current: 1,
-          total: 1
-        }
-      })
-      return GetList(query)
+      console.log('request', query)
+      let roleType = util.cookies.get('role')
+      let { current, size, ...filter } = query
+      let params = { roleType, page: current, size, ...filter }
+      return GetList(params)
+        .then(res => {
+          let { list, total, page, size } = res || {}
+          let formatData = {
+            data: {
+              records: list,
+              current: page,
+              size,
+              total
+            }
+          }
+          return formatData
+        })
     },// 数据请求
     addRequest (row) {
       console.log('addRequest', row)
       return AddObj(row)
     }, // 添加请求
     updateRequest (row) {return UpdateObj(row)},// 修改请求
+    handleAgree (record) {
+      let { row = {} } = record || {}
+      console.log(row, this.crud, this.doRefresh)
+      let params = { id, isAgree: 1 }
+      this.UpdateObj(params)
+        .then(res => {
+          console.log(res)
+          this.crud.rowHandle.custom
+        })
+      this.doRefresh()
+    },
+    handleDeny (record) {
+      this.drawer = true
+      let { row = {} } = record || {}
+      let { id } = row
+      this.detailInfo = row
+    },
     delRequest (row) {return DelObj(row.id)},// 删除请求
     // 还可以覆盖d2CrudPlus.crud中的方法来实现你的定制化需求
   },

@@ -40,6 +40,7 @@ export const crudOptions = {
     {
       title: '部门', 
       key: 'deptId', 
+      width: 100,
       align: 'center',
       search: {},//启用查询
       type: 'select', //字段类型为选择框
@@ -48,23 +49,23 @@ export const crudOptions = {
         component: { //添加和修改时form表单的组件
           props: { //配置自定义组件的属性
             filterable: true, //可过滤选择项
-            multiple: true, //支持多选
+            // multiple: true, //支持多选
             clearable: true //可清除
           }
         }
       },
       dict: {  //本地数据字典
-        data: [
-          { value: 'sz', label: '深圳' }, 
-          { value: 'gz', label: '广州' }, 
-          { value: 'wh', label: '武汉' }, 
-          { value: 'sh', label: '上海' }
-        ]
+        url: '/human/dept/list', //本地数据字典
+        value:'id', //value的属性名
+        label:'deptName', //label的属性名
+        // children:'children', //children的属性名
+        isTree: false //是否是树形结构
       }
     },
     {
       title: '岗位', 
       key: 'jobId', 
+      width: 150,
       align: 'center',
       search: {},//启用查询
       type: 'select', //字段类型为选择框
@@ -73,18 +74,15 @@ export const crudOptions = {
         component: { //添加和修改时form表单的组件
           props: { //配置自定义组件的属性
             filterable: true, //可过滤选择项
-            multiple: true, //支持多选
+            // multiple: true, //支持多选
             clearable: true //可清除
           }
         }
       },
       dict: {  //本地数据字典
-        data: [
-          { value: 'sz', label: '前端开发' }, 
-          { value: 'gz', label: '后端开发' }, 
-          { value: 'wh', label: '运维' }, 
-          { value: 'sh', label: '测试' }
-        ]
+        url: '/human/job/list',
+        value: 'id',
+        label: 'jobName'
       }
     },
     {
@@ -98,17 +96,23 @@ export const crudOptions = {
         component: { //添加和修改时form表单的组件
           props: { //配置自定义组件的属性
             filterable: true, //可过滤选择项
-            multiple: true, //支持多选
+            // multiple: true, //支持多选
             clearable: true //可清除
           }
         }
       },
       dict: {  //本地数据字典
         data: [
-          { value: '1', label: '低级' }, 
-          { value: '2', label: '中级' }, 
-          { value: '3', label: '高级' }, 
-          { value: '4', label: '管理' }
+          { value: 1, label: 'T1' }, 
+          { value: 2, label: 'T2' }, 
+          { value: 3, label: 'T3' }, 
+          { value: 4, label: 'T4' }, 
+          { value: 5, label: 'T5' }, 
+          { value: 6, label: 'T6' }, 
+          { value: 7, label: '低级' }, 
+          { value: 8, label: '中级' }, 
+          { value: 9, label: '高级' }, 
+          { value: 10, label: '管理' }
         ]
       }
     },
@@ -129,14 +133,27 @@ export const crudOptions = {
             clearable: true //可清除
           }
         }
-      },
-      dict: {  //本地数据字典
-        data: [
-          { value: 'sz', label: '深圳' }, 
-          { value: 'gz', label: '广州' }, 
-          { value: 'wh', label: '武汉' }, 
-          { value: 'sh', label: '上海' }
-        ]
+      }
+    },
+    {
+      title: '创建时间', 
+      key: 'createAt', 
+      width: 150,
+      align: 'center',
+      search: {
+        disabled: true
+      },//启用查询
+      type: 'datetime', //字段类型为选择框
+      form: {
+        disabled: true,
+        rules: [{ required: true, message: '' }],
+        component: { //添加和修改时form表单的组件
+          props: { //配置自定义组件的属性
+            filterable: true, //可过滤选择项
+            multiple: true, //支持多选
+            clearable: true //可清除
+          }
+        }
       }
     },
     {

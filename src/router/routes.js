@@ -41,15 +41,15 @@ const frameIn = [
         },
         component: _import('departmentManage')
       },
-      {
-        path: 'HRManage',
-        name: 'HRManage',
-        meta: {
-          title: 'HR管理',
-          auth: [1]
-        },
-        component: _import('HRManage')
-      },
+      // {
+      //   path: 'HRManage',
+      //   name: 'HRManage',
+      //   meta: {
+      //     title: 'HR管理',
+      //     auth: [1]
+      //   },
+      //   component: _import('HRManage')
+      // },
       {
         path: 'travelLeave',
         name: 'travelLeave',
@@ -64,9 +64,18 @@ const frameIn = [
         name: 'checkingProject',
         meta: {
           title: '查看项目',
-          auth: [2,4]
+          auth: [2]
         },
         component: _import('checkingProject') 
+      },
+      {
+        path: 'checkingProjectEmploy',
+        name: 'checkingProjectEmploy',
+        meta: {
+          title: '查看项目',
+          auth: [4]
+        },
+        component: _import('checkingProjectEmploy') 
       },
       {
         path: 'projectManage',
@@ -85,6 +94,15 @@ const frameIn = [
           auth: [2]
         },
         component: _import('recruitment')
+      },
+      {
+        path: 'jobManage',
+        name: 'jobManage',
+        meta: {
+          title: '岗位管理',
+          auth: [2]
+        },
+        component: _import('jobManage')
       },
       {
         path: 'personalOnOff',

@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import util from "@/libs/util"
 import { crudOptions } from './crud' //上文的crudOptions配置
 import { d2CrudPlus } from 'd2-crud-plus'
 import { AddObj, GetList, UpdateObj, DelObj } from './api' //查询添加修改删除的http请求接口
@@ -30,7 +31,25 @@ export default {
   mixins: [d2CrudPlus.crud], // 最核心部分，继承d2CrudPlus.crud
   methods: {
     getCrudOptions () { return crudOptions },
-    pageRequest (query) { return GetList(query)},// 数据请求
+    pageRequest (query) {
+      let roleType = util.cookies.get('role')
+      let { current, size, ...filter } = query
+      let params = { roleType, page: current, size, ...filter }
+      return GetList(params)
+        .then(res => {
+          console.log('employeeManage list res', res)
+          let { list, total, page, size } = res || {}
+          let formatData = {
+            data: {
+              records: list,
+              current: page,
+              size,
+              total
+            }
+          }
+          return formatData
+        })
+    },// 数据请求
     // 还可以覆盖d2CrudPlus.crud中的方法来实现你的定制化需求
   }
 }

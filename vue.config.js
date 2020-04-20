@@ -163,5 +163,8 @@ module.exports = {
       localeDir: 'locales',
       enableInSFC: true
     }
+  },
+  devServer: {
+    proxy: 'http://192.168.43.113:8081'
   }
 }

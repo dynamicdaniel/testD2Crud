@@ -3,7 +3,7 @@ import util from '@/libs/util.js'
 export const crudOptions = {
   columns: [
     {
-      title: '姓名',
+      title: '会议名称',
       key: 'name',
       align: 'center',
       // sortable: true,
@@ -14,71 +14,66 @@ export const crudOptions = {
       form: {//form表单的配置
         // disabled: false, //禁止添加输入与修改输入【可选】默认false
         rules: [//【可选】添加和修改时的校验规则，不配置则不校验
-          { required: true, message: '请填写姓名' }
-        ],
-        editTemplateHandle(form) {
-          console.log('editTemplateHandle', this, form)
-          let role = util.getRole()
-          console.log('role', role)
-          if (role !== 1) {
-            form.component.disabled = true
+          { required: true, message: '请填写会议名称' }
+        ], 
+      },
+      // formatter (row, column, value, index) {
+      //   // cell 格式化，与d2-crud一致
+      //   console.log('formatter', row, column, value, index)
+      // }
+    },
+    {
+      title: '开始时间', 
+      key: 'startDate', 
+      search: {
+        // width: '350px'
+      },//启用查询
+      type: 'datetime', //字段类型为选择框
+      form: {
+        rules: [{ required: true, message: '请选择时间' }],
+        component: { //添加和修改时form表单的组件
+          width: '100%',
+          props: { //配置自定义组件的属性
+            clearable: true, //可清除,
           }
-        } 
+        }
+      },
+      valueResolve (row,key) { 
+        row.startDate = moment(row.startDate).format('YYYY-MM-DD HH:mm:ss')
       }
     },
     {
-      title: '性别',
-      key: 'sex',
+      title: '结束时间', 
+      key: 'endDate', 
       align: 'center',
-      width: 50,
-      search: {},//启用查询
-      type: 'select', //字段类型为选择框
-      form: { //配置添加和编辑，根据form的配置自动生成addTemplate和editTemplate
-        rules: [//【可选】添加和修改时的校验规则，不配置则不校验
-          { required: true, message: '请选择性别' }
-        ]
-      },
-      dict: { //数据字典配置
-        // url: '/api/dicts/StatusEnum' //远程获取数据字典
-        data: [
-          { value: '1', label: '男' },
-          { value: '2', label: '女' },
-        ]
-      },
-    },
-    {
-      title: '部门', 
-      key: 'deptId', 
-      align: 'center',
-      search: {},//启用查询
-      type: 'select', //字段类型为选择框
+      search: {
+        // width: '350px'
+      },//启用查询
+      type: 'datetime', //字段类型为选择框
       form: {
-        rules: [{ required: true, message: '请选择部门' }],
+        rules: [{ required: true, message: '请选择时间' }],
         component: { //添加和修改时form表单的组件
           props: { //配置自定义组件的属性
-            filterable: true, //可过滤选择项
-            multiple: true, //支持多选
             clearable: true //可清除
           }
         }
       },
-      dict: {  //本地数据字典
-        data: [
-          { value: 'sz', label: '深圳' }, 
-          { value: 'gz', label: '广州' }, 
-          { value: 'wh', label: '武汉' }, 
-          { value: 'sh', label: '上海' }
-        ]
+      formatter (row, column, value, index) {
+        // cell 格式化，与d2-crud一致
+        console.log('formatter', row, column, value, index)
+      },
+      valueResolve (row,key) { 
+        row.endDate = moment(row.endDate).format('YYYY-MM-DD HH:mm:ss')
       }
     },
     {
-      title: '岗位', 
-      key: 'jobId', 
+      title: '参会人员', 
+      key: 'userIds', 
       align: 'center',
       search: {},//启用查询
       type: 'select', //字段类型为选择框
       form: {
-        rules: [{ required: true, message: '请选择岗位' }],
+        rules: [{ required: true, message: '请选择参会人员' }],
         component: { //添加和修改时form表单的组件
           props: { //配置自定义组件的属性
             filterable: true, //可过滤选择项
@@ -87,177 +82,20 @@ export const crudOptions = {
           }
         }
       },
-      dict: {  //本地数据字典
-        data: [
-          { value: 'sz', label: '前端开发' }, 
-          { value: 'gz', label: '后端开发' }, 
-          { value: 'wh', label: '运维' }, 
-          { value: 'sh', label: '测试' }
-        ]
-      }
-    },
-    {
-      title: '任职资格', 
-      key: 'qualification', 
-      align: 'center',
-      search: {},//启用查询
-      type: 'select', //字段类型为选择框
-      form: {
-        rules: [{ required: true, message: '请选择任职资格' }],
-        component: { //添加和修改时form表单的组件
-          props: { //配置自定义组件的属性
-            filterable: true, //可过滤选择项
-            multiple: true, //支持多选
-            clearable: true //可清除
-          }
+      valueBuilder (row,key) {
+        if (row.userIds) {
+          row.userIds = row.userIds.split(',').map(v => Number(v))
+        }
+      },
+      valueResolve (row,key) {
+        if (row.userIds) {
+          row.userIds = row.userIds.join(',')
         }
       },
       dict: {  //本地数据字典
-        data: [
-          { value: '1', label: '低级' }, 
-          { value: '2', label: '中级' }, 
-          { value: '3', label: '高级' }, 
-          { value: '4', label: '管理' }
-        ]
-      }
-    },
-    {
-      title: '联系方式', 
-      key: 'tel', 
-      align: 'center',
-      search: {
-        disabled: true
-      },//启用查询
-      type: 'input', //字段类型为选择框
-      form: {
-        rules: [{ required: true, message: '请填写联系方式' }],
-        component: { //添加和修改时form表单的组件
-          props: { //配置自定义组件的属性
-            filterable: true, //可过滤选择项
-            multiple: true, //支持多选
-            clearable: true //可清除
-          }
-        }
-      },
-      dict: {  //本地数据字典
-        data: [
-          { value: 'sz', label: '深圳' }, 
-          { value: 'gz', label: '广州' }, 
-          { value: 'wh', label: '武汉' }, 
-          { value: 'sh', label: '上海' }
-        ]
-      }
-    },
-    {
-      title: '邮箱地址', 
-      key: 'email',
-      width: 200,
-      align: 'center',
-      search: {
-        disabled: true
-      },//启用查询
-      type: 'input', //字段类型为选择框
-      form: {
-        rules: [{ required: false, message: '请填写邮箱地址' }],
-        component: { //添加和修改时form表单的组件
-          props: { //配置自定义组件的属性
-            filterable: true, //可过滤选择项
-            multiple: true, //支持多选
-            clearable: true //可清除
-          }
-        }
-      },
-      dict: {  //本地数据字典
-      }
-    },
-    {
-      title: '紧急联系人', 
-      key: 'urgentMan', 
-      align: 'center',
-      search: {
-        disabled: true
-      },//启用查询
-      type: 'input', //字段类型为选择框
-      form: {
-        rules: [{ required: false, message: '请填写紧急联系人' }],
-        component: { //添加和修改时form表单的组件
-          props: { //配置自定义组件的属性
-            filterable: true, //可过滤选择项
-            multiple: true, //支持多选
-            clearable: true //可清除
-          }
-        }
-      },
-      dict: {  //本地数据字典
-        data: [
-          { value: 'sz', label: '深圳' }, 
-          { value: 'gz', label: '广州' }, 
-          { value: 'wh', label: '武汉' }, 
-          { value: 'sh', label: '上海' }
-        ]
-      }
-    },
-    {
-      title: '紧急联系人电话', 
-      key: 'urgentManTel', 
-      align: 'center',
-      search: {
-        disabled: true
-      },//启用查询
-      type: 'input', //字段类型为选择框
-      form: {
-        rules: [{ required: false, message: '请填写紧急联系人电话' }],
-        component: { //添加和修改时form表单的组件
-          props: { //配置自定义组件的属性
-            filterable: true, //可过滤选择项
-            multiple: true, //支持多选
-            clearable: true //可清除
-          }
-        }
-      },
-      dict: {  //本地数据字典
-      }
-    },
-    {
-      title: '系统账号', 
-      key: 'account', 
-      align: 'center',
-      search: {
-        disabled: true
-      },//启用查询
-      type: 'input', //字段类型为选择框
-      form: {
-        rules: [{ required: true, message: '请填写系统账号' }],
-        component: { //添加和修改时form表单的组件
-          props: { //配置自定义组件的属性
-            filterable: true, //可过滤选择项
-            multiple: true, //支持多选
-            clearable: true //可清除
-          }
-        }
-      },
-      dict: {  //本地数据字典
-      }
-    },
-    {
-      title: '密码', 
-      align: 'center',
-      key: 'password', 
-      search: {
-        disabled: true
-      },//启用查询
-      type: 'input', //字段类型为选择框
-      form: {
-        rules: [{ required: true, message: '请填写密码' }],
-        component: { //添加和修改时form表单的组件
-          props: { //配置自定义组件的属性
-            filterable: true, //可过滤选择项
-            multiple: true, //支持多选
-            clearable: true //可清除
-          }
-        }
-      },
-      dict: {  //本地数据字典
+        url: '/human/user/list',
+        value: 'id',
+        label: 'name'
       }
     }
   ],
@@ -265,16 +103,5 @@ export const crudOptions = {
     current: 1,
     size: 10,
     total: 1
-  },
-  rowHandle: {
-    width: 300,
-    custom: [
-      {
-        text: '员工详情',
-        type: 'primary',
-        size: 'small',
-        emit: 'custom-emit'
-      }
-    ]
   }
 }

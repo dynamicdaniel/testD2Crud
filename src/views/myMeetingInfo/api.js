@@ -1,7 +1,7 @@
 import request from '@/plugin/axios'
 export function GetList (query) {
   return request({
-    url: '/test/page',
+    url: '/human/meet/list',
     method: 'get',
     params: query
   })

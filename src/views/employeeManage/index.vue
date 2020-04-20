@@ -14,7 +14,6 @@
         :form-options="crud.formOptions"
         :options="crud.options"
         :loading="crud.loading"
-        @filter-change='handleFilterChange'
         @dialog-open="handleDialogOpen"
         @dialog-cancel="handleDialogCancel"
         @row-edit="handleRowEdit"
@@ -43,9 +42,21 @@
           v-for="key in Object.keys(detailInfo)"
           :key="key"
           class='user_detail_info'
+          :style='{display: !!getTitle(key) ? "inline-block" : "none"}'
         >
-          <span>{{ getTitle(key) }}</span>
-          <span>{{ detailInfo[key] }}</span>
+          <span v-if='!!getTitle(key)'>{{
+            getTitle(key)
+          }}</span>
+          <span v-if='!!getTitle(key)'>{{
+            key === 'role'
+            ? detailInfo[key] == 1
+              ? '管理员'
+              : detailInfo[key] == 2
+                ? '人事专员'
+                : detailInfo[key] == 3
+                  ? '部门经理' : '员工'
+            : detailInfo[key]
+          }}</span>
         </p>
       </div>
       <span></span>
@@ -57,11 +68,14 @@
 import { crudOptions } from './crud' //上文的crudOptions配置
 import { d2CrudPlus } from 'd2-crud-plus'
 import { AddObj, GetList, UpdateObj, DelObj } from './api' //查询添加修改删除的http请求接口
+import util from '@/libs/util.js'
+import moment from 'moment'
 export default {
   name: 'employeeManage',
   data () {
     return {
       drawer: false,
+      domain: '192.168.43.113:8081/',
       detailInfo: {},
       hideColumns: ['urgentMan', 'urgentManTel', 'account', 'password']
     }
@@ -70,22 +84,23 @@ export default {
   methods: {
     getCrudOptions () { return crudOptions },
     pageRequest (query) {
-      console.log('request', query)
-      console.log('pageRequest', this.crud.page)
-      let { size } = query
-      return Promise.resolve({
-        data:{
-          records: [{
-            name: 'test',
-            sex: '男'
-          }],
-          current: 1,
-          size,
-          // size: 10,
-          total: 20
-        }
-      })
-      return GetList(query)
+      let roleType = util.cookies.get('role')
+      let { current, size, ...filter } = query
+      let params = { roleType, page: current, size, ...filter }
+      return GetList(params)
+        .then(res => {
+          console.log('employeeManage list res', res)
+          let { list, total, page, size } = res || {}
+          let formatData = {
+            data: {
+              records: list,
+              current: page,
+              size,
+              total
+            }
+          }
+          return formatData
+        })
     },// 数据请求
     addRequest (row) { return AddObj(row) }, // 添加请求
     updateRequest (row) {return UpdateObj(row)},// 修改请求
@@ -98,14 +113,17 @@ export default {
     },
     exportExcel () {
       let { form } = this.getSearch()
-      console.log('exportExcel', this.crud, )
-
-    },
-    handleFilterChange (filter) {
-      console.log('handleFilterChange', filter)
-    },
-    paginationChange (current) {
-      console.log('paginationChange', current)
+      let api = `http://${this.domain}/human/user/listExcel`
+      let { name, sex, role, deptId, jobId, qualification } = form
+      let filterObj = { name, sex, role, deptId, jobId, qualification }
+      let query = Object.keys(filterObj)
+        .filter(v => !!filterObj[v])
+        .map(v => `${v}=${filterObj[v]}`)
+        .join('&')
+      let url = `${api}${query && "?" + query || ''}`
+      console.log('exportExcel', url)
+      window.open(url)
+      console.log('exportExcel')
     },
     getTitle (key) {
       let { columnsMap } = this.crud
@@ -116,12 +134,15 @@ export default {
         console.log(value)
         return ''
       }
+    },
+    dateFormate (date) {
+      return moment(date).format('YYYY-MM-DD HH:mm:ss')
     }
   },
   computed: {
   },
   mounted() {
-    console.log('employeeManage did mount', this, this.crud.columns)
+    console.log('employeeManage did mount', this, this.crud.columns, this.detailInfo)
     this.crud.columns = this.crud.columns.filter(v => {
       return this.hideColumns.indexOf(v.key) === -1
     })

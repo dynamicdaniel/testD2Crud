@@ -34,6 +34,7 @@
 </template>
 
 <script>
+import util from '@/libs/util.js'
 import { crudOptions } from './crud' //上文的crudOptions配置
 import { d2CrudPlus } from 'd2-crud-plus'
 import { AddObj, GetList, UpdateObj, DelObj } from './api' //查询添加修改删除的http请求接口
@@ -49,24 +50,23 @@ export default {
     getCrudOptions () { return crudOptions },
     pageRequest (query) {
       console.log('request', query)
-      // return Promise.resolve({
-      //   data: {
-      //     records: [
-      //       {
-      //         deptName: '董事会',
-      //         manager: '王钰淳'
-      //       },
-      //       {
-      //         deptName: '开发部',
-      //         manager: '小陈'
-      //       }
-      //     ],
-      //     current: 1,
-      //     total: 40,
-      //     size: 10
-      //   }
-      // })
-      return GetList(query)
+      let roleType = util.cookies.get('role')
+      let { current, size, ...filter } = query
+      let params = { roleType, page: current, size, ...filter }
+      return GetList(params)
+        .then(res => {
+          let { list, total, page, size } = res || {}
+          let formatData = {
+            data: {
+              records: list,
+              current: page,
+              size,
+              total
+            }
+          }
+          return formatData
+        })
+
     },// 数据请求
     addRequest (row) { return AddObj(row) }, // 添加请求
     updateRequest (row) {return UpdateObj(row)},// 修改请求

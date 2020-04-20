@@ -67,22 +67,21 @@ export default {
   methods: {
     getCrudOptions () { return crudOptions },
     pageRequest (query) {
-      console.log('request', query)
-      console.log('pageRequest', this.crud.page)
-      let { size } = query
-      return Promise.resolve({
-        data:{
-          records: [{
-            name: 'test',
-            sex: '男'
-          }],
-          current: 1,
-          size,
-          // size: 10,
-          total: 20
-        }
-      })
-      return GetList(query)
+      let { current, size, ...filter } = query
+      let params = { page: current, size, ...filter }
+      return GetList(params)
+        .then(res => {
+          let { list, total, page, size } = res || {}
+          let formatData = {
+            data: {
+              records: list,
+              current: page,
+              size,
+              total
+            }
+          }
+          return formatData
+        })
     },// 数据请求
     addRequest (row) { return AddObj(row) }, // 添加请求
     updateRequest (row) {return UpdateObj(row)},// 修改请求

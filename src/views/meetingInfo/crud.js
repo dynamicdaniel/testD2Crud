@@ -1,5 +1,5 @@
 import util from '@/libs/util.js'
-
+import moment from 'moment'
 export const crudOptions = {
   columns: [
     {
@@ -22,20 +22,22 @@ export const crudOptions = {
       title: '会议室',
       key: 'roomId',
       align: 'center',
-      // sortable: true,
       type: 'select', //字段类型为时间选择器datepicker,根据类型可自动生成默认配置
       search: {//查询配置，默认启用查询
-        disabled: false //【可选】true禁止查询,默认为false
+        //disabled: false //【可选】true禁止查询,默认为false
       },
-      form: {//form表单的配置
-        // disabled: false, //禁止添加输入与修改输入【可选】默认false
-        rules: [//【可选】添加和修改时的校验规则，不配置则不校验
-          { required: true, message: '请选择会议室' }
-        ], 
+      form: {
+        rules: [{ required: true, message: '请选择会议室' }],
+        component: { //添加和修改时form表单的组件
+          props: { //配置自定义组件的属性
+            clearable: true //可清除
+          }
+        }
       },
       dict: {  //本地数据字典
-        data: [
-        ]
+        url: '/human/room/list',
+        value: 'id',
+        label: 'name'
       }
     },
     {
@@ -53,7 +55,13 @@ export const crudOptions = {
             clearable: true, //可清除,
           }
         }
-      }
+      },
+      valueResolve (row,key) {
+        console.log('valueResolve', row.startDate)
+        if (row.startDate) {
+          row.startDate = moment(row.startDate).format('YYYY-MM-DD HH:mm:ss')
+        }
+      },
     },
     {
       title: '结束时间', 
@@ -70,13 +78,25 @@ export const crudOptions = {
             clearable: true //可清除
           }
         }
-      }
+      },
+      valueResolve (row,key) { 
+        console.log('valueResolve', row.endDate)
+        if (row.endDate) {
+          row.endDate = moment(row.endDate).format('YYYY-MM-DD HH:mm:ss')
+        }
+      },
     },
     {
       title: '参会人员', 
       key: 'userIds', 
       align: 'center',
-      search: {},//启用查询
+      search: {
+        component: {
+          props: {
+            multiple: false
+          }
+        }
+      },//启用查询
       type: 'select', //字段类型为选择框
       form: {
         rules: [{ required: true, message: '请选择参会人员' }],
@@ -88,9 +108,20 @@ export const crudOptions = {
           }
         }
       },
+      valueBuilder (row,key) {
+        if (row.userIds) {
+          row.userIds = row.userIds.split(',').map(v => Number(v))
+        }
+      },
+      valueResolve (row,key) {
+        if (row.userIds) {
+          row.userIds = row.userIds.join(',')
+        }
+      },
       dict: {  //本地数据字典
-        data: [
-        ]
+        url: '/human/user/list',
+        value: 'id',
+        label: 'name'
       }
     }
   ],
@@ -98,16 +129,5 @@ export const crudOptions = {
     current: 1,
     size: 10,
     total: 1
-  },
-  rowHandle: {
-    width: 300,
-    custom: [
-      {
-        text: '会议详情',
-        type: 'primary',
-        size: 'small',
-        emit: 'custom-emit'
-      }
-    ]
   }
 }

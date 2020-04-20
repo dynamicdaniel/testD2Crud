@@ -2,13 +2,12 @@
   <d2-container>
     <!-- <template slot="header">员工信息管理</template> -->
     <d2-crud ref="d2Crud"
-        :columns="crud.columns"
-        :data="crud.list"
-        :rowHandle="crud.rowHandle"
-        :form-options="crud.formOptions"
-        :options="crud.options"
-        :loading="crud.loading"
-        @form-data-change="handleFormDataChange"
+      :columns="crud.columns"
+      :data="crud.list"
+      :form-options="crud.formOptions"
+      :options="crud.options"
+      :loading="crud.loading"
+      @form-data-change="handleFormDataChange"
       >
     </d2-crud>
     <crud-footer ref="footer" slot="footer"
@@ -22,6 +21,7 @@
 </template>
 
 <script>
+import util from '@/libs/util.js'
 import { crudOptions } from './crud' //上文的crudOptions配置
 import { d2CrudPlus } from 'd2-crud-plus'
 import { AddObj, GetList, UpdateObj, DelObj } from './api' //查询添加修改删除的http请求接口
@@ -31,22 +31,22 @@ export default {
   methods: {
     getCrudOptions () { return crudOptions },
     pageRequest (query) {
-      console.log('request', query)
-      console.log('pageRequest', this.crud.page)
-      let { size } = query
-      return Promise.resolve({
-        data:{
-          records: [{
-            name: 'test',
-            sex: '男'
-          }],
-          current: 1,
-          size,
-          // size: 10,
-          total: 20
-        }
-      })
-      return GetList(query)
+      let userId = util.cookies.get('id')
+      let { current, size, ...filter } = query
+      let params = { userId, page: current, size, ...filter }
+      return GetList(params)
+        .then(res => {
+          let { list, total, page, size } = res || {}
+          let formatData = {
+            data: {
+              records: list,
+              current: page,
+              size,
+              total
+            }
+          }
+          return formatData
+        })
     },// 数据请求
   }
 }

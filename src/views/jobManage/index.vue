@@ -1,6 +1,5 @@
 <template>
   <d2-container>
-    <!-- <template slot="header">员工信息管理</template> -->
     <crud-search ref="search" :options="crud.searchOptions" @submit="handleSearch" class="d2-mb-10" ></crud-search>
     <d2-crud ref="d2Crud"
         :columns="crud.columns"
@@ -14,13 +13,13 @@
         :form-options="crud.formOptions"
         :options="crud.options"
         :loading="crud.loading"
+        @filter-change='handleFilterChange'
         @dialog-open="handleDialogOpen"
         @dialog-cancel="handleDialogCancel"
         @row-edit="handleRowEdit"
         @row-add="handleRowAdd"
         @row-remove="handleRowRemove"
         @form-data-change="handleFormDataChange"
-        @custom-emit="customEmit"
       >
       <el-button slot="header" icon='el-icon-plus' style="margin-bottom: 5px" size="small" type="primary" @click="addRow">新增</el-button>
     </d2-crud>
@@ -55,23 +54,20 @@
 import { crudOptions } from './crud' //上文的crudOptions配置
 import { d2CrudPlus } from 'd2-crud-plus'
 import { AddObj, GetList, UpdateObj, DelObj } from './api' //查询添加修改删除的http请求接口
-import util from '@/libs/util.js'
 export default {
-  name: 'HRManage',
+  name: 'employeeManage',
   data () {
     return {
       drawer: false,
       detailInfo: {},
-      hideColumns: ['urgentMan', 'urgentManTel', 'account', 'password']
     }
   },
   mixins: [d2CrudPlus.crud], // 最核心部分，继承d2CrudPlus.crud
   methods: {
     getCrudOptions () { return crudOptions },
     pageRequest (query) {
-      //  let roleType = util.cookies.get('role')
       let { current, size, ...filter } = query
-      let params = { roleType: "2", page: current, size, ...filter }
+      let params = { page: current, size, ...filter }
       return GetList(params)
         .then(res => {
           let { list, total, page, size } = res || {}
@@ -90,12 +86,6 @@ export default {
     updateRequest (row) {return UpdateObj(row)},// 修改请求
     delRequest (row) {return DelObj(row.id)},// 删除请求
     // 还可以覆盖d2CrudPlus.crud中的方法来实现你的定制化需求
-    customEmit (record) {
-      this.drawer = true
-      let { row = {} } = record || {}
-      // this.$message(`${row}, ${row.row.deptName}, ${row.row.manager}`)
-      this.detailInfo = row
-    },
     getTitle (key) {
       let { columnsMap } = this.crud
       let value = columnsMap[key]
@@ -110,11 +100,6 @@ export default {
   computed: {
   },
   mounted() {
-    console.log('employeeManage did mount', this, this.crud.columns)
-    this.crud.columns = this.crud.columns.filter(v => {
-      return this.hideColumns.indexOf(v.key) === -1
-    })
-    console.log('********', this.crud)
   }
 }
 </script>

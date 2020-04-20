@@ -10,9 +10,9 @@ export default [
     icon: 'briefcase',
     path: '/departmentManage'
   },
-  {
-    title: 'HR管理',
-    icon: 'id-card',
-    path: '/HRManage'
-  },
+  // {
+  //   title: 'HR管理',
+  //   icon: 'id-card',
+  //   path: '/HRManage'
+  // },
 ]

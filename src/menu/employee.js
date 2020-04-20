@@ -8,7 +8,7 @@ export default [
   {
     title: '参与项目',
     icon: 'briefcase',
-    path: '/checkingProject'
+    path: '/checkingProjectEmploy'
   },
   {
     title: '我的会议',

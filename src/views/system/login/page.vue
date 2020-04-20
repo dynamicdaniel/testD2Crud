@@ -21,11 +21,11 @@
               :rules="rules"
               :model="formLogin"
               size="default">
-              <el-form-item prop="username">
+              <el-form-item prop="account">
                 <el-input
                   prefix-icon='el-icon-user'
                   type="text"
-                  v-model="formLogin.username"
+                  v-model="formLogin.account"
                   placeholder="用户名">
                 </el-input>
               </el-form-item>
@@ -90,13 +90,13 @@ export default {
       ],
       // 表单
       formLogin: {
-        username: 'admin',
-        password: 'admin',
+        account: '',
+        password: '',
         role: 1
       },
       // 表单校验
       rules: {
-        username: [
+        account: [
           {
             required: true,
             message: '请输入用户名',
@@ -145,10 +145,10 @@ export default {
           // 登录
           // 注意 这里的演示没有传验证码
           // 具体需要传递的数据请自行修改代码
-          let { username, password, role } = this.formLogin
-          console.log(username, password, role)
+          let { account, password, role } = this.formLogin
+          console.log(account, password, role)
           this.login({
-            username: this.formLogin.username,
+            account: this.formLogin.account,
             password: this.formLogin.password,
             role: this.formLogin.role,
           })

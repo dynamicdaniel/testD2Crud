@@ -1,9 +1,10 @@
+import moment from 'moment'
 export const crudOptions = {
   columns: [
     {
       title: '部门名称',
       key: 'deptName',
-      sortable: true, 
+      // sortable: true, 
       type: 'input', //字段类型为时间选择器datepicker,根据类型可自动生成默认配置
       search: {//查询配置，默认启用查询
         disabled: false //【可选】true禁止查询,默认为false
@@ -33,6 +34,7 @@ export const crudOptions = {
       width: '150',
       type: 'input', //字段类型为选择框
       form: { //配置添加和编辑，根据form的配置自动生成addTemplate和editTemplate
+        disabled: true,
         rules: [//【可选】添加和修改时的校验规则，不配置则不校验
           { required: false, message: '请填写经理姓名' }
         ]
@@ -62,8 +64,20 @@ export const crudOptions = {
           'default-time': ['12:00:00', '12:00:00'],
         }
       },
+      valueBuilder (row,key) {
+        // 某些组件传入的value值可能是一个复杂对象，而row中的单个属性的值不合适传入
+        // 则需要在打开编辑对话框前将row里面多个字段组合成组件需要的value对象
+        // 例如：国际手机号(mobileValue为此column的key) 
+        // 示例 http://qiniu.veryreader.com/D2CrudPlusExample/#/form/phone
+        // row.mobileValue = { phoneNumber: row.phone, callingCode: row.code, countryCode: row.country }
+      },
       dict: { //数据字典配置
         // url: '/api/dicts/StatusEnum' //远程获取数据字典
+      },
+      formatter (row, column, value, index) {
+        // cell 格式化，与d2-crud一致
+        console.log('formatter', row, column, value, index)
+        return row.createAt && moment(row.createA).format('YYYY-MM-DD HH:mm:ss')
       }
     }
   ],

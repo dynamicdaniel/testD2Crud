@@ -15,6 +15,7 @@ import menuHeader from '@/menu/header'
 import menuAside from '@/menu/aside'
 import { admin, hr, manager, employee } from '@/menu'
 import { frameInRoutes } from '@/router/routes'
+import request from '@/plugin/axios'
 
 // 核心插件
 console.log('main.js d2Crud', d2Crud)
@@ -22,13 +23,19 @@ Vue.use(d2Admin)
 Vue.use(d2Crud, { size: 'medium' })
 Vue.use(d2CrudPlus, {
   getRemoteDictFunc (url) { //获取数据字典的请求方法，不配置此项则无法加载远程数据字典
-   return request({
+    console.log('getRemoteDictFunc', url)
+    return request({
      url: url,
-     method: 'get'
+     method: 'get',
    }).then(ret=>{
-     return ret.data  //返回字典数组
+     console.log(`getRemoteDictFunc`, ret)
+     let { list = [] } = ret || {}
+     return list  //返回字典数组
    })  
   },
+  // mergeDefault(dict) {
+  //   console.log('mergeDefault', dict)
+  // },
   commonOption(){ //d2-crud option 全局设置
     return {
     options: {size:'mini'} //全局配置表格大小
