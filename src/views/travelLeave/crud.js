@@ -35,7 +35,7 @@ export const crudOptions = {
       dict: { //数据字典配置
         url: '/human/user/list', //远程获取数据字典
         value: 'id',
-        label: 'userName'
+        label: 'name'
       }
     },
     {
