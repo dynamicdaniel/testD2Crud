@@ -109,7 +109,7 @@ export const crudOptions = {
       search: {},//启用查询
       type: 'select', //字段类型为选择框
       form: {
-        rules: [{ required: true, message: '请选择岗位' }],
+        rules: [{ required: false, message: '请选择岗位' }],
         component: { //添加和修改时form表单的组件
           props: { //配置自定义组件的属性
             filterable: true, //可过滤选择项
